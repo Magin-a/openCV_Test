@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-img = "IMAGE\\lulu.jpg"
+img = "openCV_Test\IMAGE\lulu.jpg"
 
 img1 = cv.imread(img)  #ex) cv.imread(r'C:\Users\starry_night.jpg')
 target_img = img1.copy()
