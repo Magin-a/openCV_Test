@@ -8,15 +8,16 @@ import matplotlib.pyplot as plt
 
 
 #이미지 불러오기 (matplotlib.pyplot)
-img = cv.imread("IMAGE/expressway.jpg")
-img_gray = cv.imread("IMAGE/expressway_gray.jpg")
+img = cv.imread("code\IMAGE\expressway.jpg")
 
-# plt.figure(figsize=(10, 8))
+
+plt.figure(figsize=(10, 8)) #팝업창 사이즈
 print(type(img))
-print(img.shape) #.shape(높이, 너비, channel)
+print(img.shape) #shape(높이, 너비, channel)
+#-이후에 좌표점구역 나누기에 활욜할 좌표 확인
 
-# plt.imshow(img)
-# plt.show()
+plt.imshow(img)
+plt.show()
 
 
 #차선 인식을 위한 색 변환 함수
@@ -24,9 +25,9 @@ def TransGray(img):
     return cv.cvtColor(img, cv.COLOR_RGB2GRAY)
 
 gray = TransGray(img)
-# plt.figure(figsize=(10, 8))
-# plt.imshow(gray, cmap='gray')
-# plt.show()
+plt.figure(figsize=(10, 8))
+plt.imshow(gray, cmap='gray')
+plt.show()
 
 
 #블러링
@@ -34,26 +35,26 @@ gray = TransGray(img)
 def gaussian_blur(img, kernel_size):
     return cv.GaussianBlur(img, (kernel_size, kernel_size), 0)
 
-kernel_size = 5
+kernel_size = 5 #연산을 수행할 때 윈도우의 크기
 blur_gray = gaussian_blur(gray, kernel_size)
 
-# plt.figure(figsize=(10, 8))
-# plt.imshow(blur_gray, cmap='gray')
-# plt.show()
+plt.figure(figsize=(10, 8))
+plt.imshow(blur_gray, cmap='gray')
+plt.show()
 
 def canny(img, low_threshold, high_treshold):
     return cv.Canny(img, low_threshold, high_treshold)
 
 
 edge = canny(blur_gray, 50, 200)
-# plt.figure(figure = (10, 8))
+plt.figure(figsize = (10, 8))
 plt.imshow(edge, cmap='gray')
 plt.show()
 
 #공백사진
 mask = np.zeros_like(img)
-# plt.figure(figsize=(10, 8))
-# plt.imshow(mask, cmap='gray')
+plt.figure(figsize=(10, 8))
+plt.imshow(mask, cmap='gray')
 
 
 #카메라 인식할 영역 표시
@@ -64,7 +65,7 @@ if len(img.shape) > 2:
 else:
     ignore_mask_color = 255
 
-imshape = img.shape #(750, 1000, 3)
+imshape = img.shape
 
 
 
@@ -87,10 +88,8 @@ def region_of_interest(img, vertices):
     return masked_image
 
 
-
+#선긋기전 좌표점 (vertices은 입력 좌표값 영역을 이어서 표시)
 vertices = np.array([[(100, imshape[0]),(450, 320), (550, 320),(imshape[1]-20, imshape[0])]], dtype=np.int32)
-
-# cv.fillPoly(mask, vertices, ignore_mask_color)
 mask = region_of_interest(edge, vertices)
 
 plt.figure(figsize=(10, 8))
@@ -114,7 +113,14 @@ def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
     draw_lines(line_img, lines)
     return line_img
 
-lines = hough_lines(mask, 2, np.pi/180, 90, 120, 150)
+#허브변환(추가 공부 필요)
+rho = 2
+theta = np.pi/180
+threshold = 90
+min_line_len = 120
+max_line_gap = 150
+
+lines = hough_lines(mask, rho, theta, threshold, min_line_len, max_line_gap)
 
 plt.figure(figsize=(10, 8))
 plt.imshow(lines, cmap='gray')
