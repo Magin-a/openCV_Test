@@ -8,16 +8,16 @@ import matplotlib.pyplot as plt
 
 
 #이미지 불러오기 (matplotlib.pyplot)
-img = cv.imread("code\IMAGE\expressway.jpg")
+img = cv.imread("openCV_Test\code\IMAGE\solidWhiteCurve.jpg")
 
 
 plt.figure(figsize=(10, 8)) #팝업창 사이즈
-print(type(img))
-print(img.shape) #shape(높이, 너비, channel)
+# print(type(img))
+# print(img.shape) #shape(높이, 너비, channel)
 #-이후에 좌표점구역 나누기에 활욜할 좌표 확인
 
-plt.imshow(img)
-plt.show()
+#plt.imshow(img) #기본 이미지
+#plt.show()
 
 
 #차선 인식을 위한 색 변환 함수
@@ -25,7 +25,7 @@ def TransGray(img):
     return cv.cvtColor(img, cv.COLOR_RGB2GRAY)
 
 gray = TransGray(img)
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(10, 8)) #팝업창 사이즈
 plt.imshow(gray, cmap='gray')
 plt.show()
 
@@ -39,7 +39,7 @@ kernel_size = 5 #연산을 수행할 때 윈도우의 크기
 blur_gray = gaussian_blur(gray, kernel_size)
 
 plt.figure(figsize=(10, 8))
-plt.imshow(blur_gray, cmap='gray')
+plt.imshow(blur_gray, cmap='blur')
 plt.show()
 
 def canny(img, low_threshold, high_treshold):
@@ -48,7 +48,7 @@ def canny(img, low_threshold, high_treshold):
 
 edge = canny(blur_gray, 50, 200)
 plt.figure(figsize = (10, 8))
-plt.imshow(edge, cmap='gray')
+plt.imshow(edge, cmap='edge')
 plt.show()
 
 #공백사진
@@ -113,7 +113,7 @@ def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
     draw_lines(line_img, lines)
     return line_img
 
-#허브변환(추가 공부 필요)
+#허프변환(추가 공부 필요)
 rho = 2
 theta = np.pi/180
 threshold = 90

@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-img = "파일경로"
+img = "openCV_Test\code\IMAGE\expressway.jpg"
 
 img1 = cv.imread(img)  #ex) cv.imread(r'C:\Users\starry_night.jpg')
 target_img = img1.copy()
@@ -14,8 +14,8 @@ COLOR = (0, 200, 0)
 cv.drawContours(target_img, contours, -1, COLOR, 2)
 
 
-cv.imshow('img', img1)
-cv.imshow("gray", img1_gray)
+#cv.imshow('img', img1)
+#cv.imshow("gray", img1_gray)
 cv.imshow('contours', target_img)
 cv.waitKey(0)
 cv.destroyAllWindows()
